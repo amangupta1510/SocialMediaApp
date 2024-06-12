@@ -1,0 +1,312 @@
+{
+	"info": {
+		"_postman_id": "aeb2d054-179d-4650-8ca0-5752ce58eb02",
+		"name": "Social Media App",
+		"description": "API collection for the Social Media App microservices",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"_exporter_id": "36256952"
+	},
+	"item": [
+		{
+			"name": "User Service",
+			"item": [
+				{
+					"name": "Create User",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"name\": \"User 1\",\n\t\"mobileNo\": \"1234567890\",\n\t\"email\": \"user1@example.com\",\n\t\"password\": \"password123\"\n}"
+						},
+						"url": "http://localhost:3001/users"
+					},
+					"response": []
+				},
+				{
+					"name": "Update User",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"name\": \"user1 Updated\",\n\t\"mobileNo\": \"0987654321\",\n\t\"email\": \"user1updated@example.com\"\n}"
+						},
+						"url": "http://localhost:3001/users/{{userId}}"
+					},
+					"response": []
+				},
+				{
+					"name": "Delete User",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": "http://localhost:3001/users/{{userId}}"
+					},
+					"response": []
+				},
+				{
+					"name": "Show List of Users",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "http://localhost:3001/users"
+					},
+					"response": []
+				},
+				{
+					"name": "Search User by Name",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3001/users/search?name={{name}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"users",
+								"search"
+							],
+							"query": [
+								{
+									"key": "name",
+									"value": "{{name}}"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Discussion Service",
+			"item": [
+				{
+					"name": "Create Discussion",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"userId\": \"{{userId}}\",\n\t\"text\": \"This is a discussion post\",\n\t\"image\": \"imageurl.jpg\",\n\t\"hashtags\": [\"#tag1\", \"#tag2\"]\n}"
+						},
+						"url": "http://localhost:3002/discussions"
+					},
+					"response": []
+				},
+				{
+					"name": "Update Discussion",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"text\": \"Updated discussion text\",\n\t\"image\": \"updatedimageurl.jpg\",\n\t\"hashtags\": [\"#newtag1\", \"#newtag2\"]\n}"
+						},
+						"url": "http://localhost:3002/discussions/{{discussionId}}"
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Discussion",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": "http://localhost:3002/discussions/{{discussionId}}"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Discussions by Tags",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3002/discussions/tags?tag={{tag}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3002",
+							"path": [
+								"discussions",
+								"tags"
+							],
+							"query": [
+								{
+									"key": "tag",
+									"value": "{{tag}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Search Discussions by Text",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3002/discussions/search?text={{text}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3002",
+							"path": [
+								"discussions",
+								"search"
+							],
+							"query": [
+								{
+									"key": "text",
+									"value": "{{text}}"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Comment Service",
+			"item": [
+				{
+					"name": "Create Comment",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"discussionId\": \"{{discussionId}}\",\n\t\"userId\": \"{{userId}}\",\n\t\"text\": \"This is a comment\"\n}"
+						},
+						"url": "http://localhost:3003/comments"
+					},
+					"response": []
+				},
+				{
+					"name": "Update Comment",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"text\": \"Updated comment text\"\n}"
+						},
+						"url": "http://localhost:3003/comments/{{commentId}}"
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Comment",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": "http://localhost:3003/comments/{{commentId}}"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Like Service",
+			"item": [
+				{
+					"name": "Like Discussion or Comment",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"discussionId\": \"{{discussionId}}\",\n\t\"commentId\": \"{{commentId}}\",\n\t\"userId\": \"{{userId}}\"\n}"
+						},
+						"url": "http://localhost:3004/likes"
+					},
+					"response": []
+				},
+				{
+					"name": "Unlike Discussion or Comment",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": "http://localhost:3004/likes/{{likeId}}"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Follow Service",
+			"item": [
+				{
+					"name": "Follow User",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"followerId\": \"{{followerId}}\",\n\t\"followingId\": \"{{followingId}}\"\n}"
+						},
+						"url": "http://localhost:3005/follows"
+					},
+					"response": []
+				},
+				{
+					"name": "Unfollow User",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": "http://localhost:3005/follows/{{followId}}"
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}

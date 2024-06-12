@@ -1,0 +1,130 @@
+
+ Low-Level Design (LLD)
+
+ Components and Services
+
+1. User Service:
+   - Entities: User
+   - Endpoints:
+     - 'POST /users': Create User
+     - 'PUT /users/{userId}': Update User
+     - 'DELETE /users/{userId}': Delete User
+     - 'GET /users': List Users
+     - 'GET /users/search': Search User by Name
+   - Database Schema:
+     - 'User' (id, name, mobileNo, email, password, createdAt, updatedAt)
+
+2. Discussion Service:
+   - Entities: Discussion, Hashtag
+   - Endpoints:
+     - 'POST /discussions': Create Discussion
+     - 'PUT /discussions/{discussionId}': Update Discussion
+     - 'DELETE /discussions/{discussionId}': Delete Discussion
+     - 'GET /discussions/tags': Get Discussions by Tags
+     - 'GET /discussions/search': Search Discussions by Text
+   - Database Schema:
+     - 'Discussion' (id, userId, text, image, createdAt, updatedAt)
+     - 'Hashtag' (id, discussionId, tag)
+
+3. Comment Service:
+   - Entities: Comment
+   - Endpoints:
+     - 'POST /comments': Create Comment
+     - 'PUT /comments/{commentId}': Update Comment
+     - 'DELETE /comments/{commentId}': Delete Comment
+   - Database Schema:
+     - 'Comment' (id, discussionId, userId, text, createdAt, updatedAt)
+
+4. Like Service:
+   - Entities: Like
+   - Endpoints:
+     - 'POST /likes': Like Discussion or Comment
+     - 'DELETE /likes/{likeId}': Unlike Discussion or Comment
+   - Database Schema:
+     - 'Like' (id, discussionId, commentId, userId, createdAt)
+
+5. Follow Service:
+   - Entities: Follow
+   - Endpoints:
+     - 'POST /follows': Follow User
+     - 'DELETE /follows/{followId}': Unfollow User
+   - Database Schema:
+     - 'Follow' (id, followerId, followingId, createdAt)
+
+ Interactions and Flow
+
+1. User Signup/Login:
+   - User submits signup form with name, mobileNo, email, and password.
+   - 'User Service' handles user creation and stores the user in the database.
+   - For login, the service authenticates the user based on email and password.
+
+2. User Operations:
+   - Users can update their profiles via the 'PUT /users/{userId}' endpoint.
+   - Users can be deleted via the 'DELETE /users/{userId}' endpoint.
+   - List and search operations are handled by the respective endpoints.
+
+3. Creating and Managing Discussions:
+   - Authenticated users can create discussions via the 'POST /discussions' endpoint.
+   - Discussions can be updated or deleted by their creators via the respective endpoints.
+   - Discussions are tagged with hashtags for categorization.
+
+4. Commenting on Discussions:
+   - Users can comment on discussions using the 'POST /comments' endpoint.
+   - Comments can be updated or deleted by their creators via the respective endpoints.
+
+5. Liking Discussions and Comments:
+   - Users can like discussions or comments using the 'POST /likes' endpoint.
+   - Likes can be removed via the 'DELETE /likes/{likeId}' endpoint.
+
+6. Following Users:
+   - Users can follow other users via the 'POST /follows' endpoint.
+   - Follow relationships can be removed via the 'DELETE /follows/{followId}' endpoint.
+
+ Microservices Architecture
+
+Each microservice will have its own database to ensure loose coupling. The services communicate with each other using RESTful APIs. Below is an example of how the services might interact:
+
+                        +---------------------+
+                        |     API Gateway     |
+                        +---------+-----------+
+                                  |
+                  +---------------+---------------+
+                  |                               |
+         +--------+-------+               +-------+--------+
+         | User Service   |               | Discussion     |
+         |                |               | Service        |
+         +--------+-------+               +-------+--------+
+                  |                               |
+                  |                               |
+         +--------+-------+               +-------+--------+
+         | Follow Service |               | Comment Service|
+         +--------+-------+               +-------+--------+
+                  |                               |
+                  |                               |
+                  +-------------------------------+
+                                  |
+                           +------v-------+
+                           | Like Service |
+                           +--------------+
+
+
+## Sequence Diagram for Creating a Discussion
+
+User         API Gateway       Discussion Service         User Service
+ |                |                      |                     |
+ |   POST /discussions   |                      |                       |
+ |---------------------->|                      |                       |
+ |                       |   Validate user      |                       |
+ |                       |--------------------->|                       |
+ |                       |                      | Check if user exists  |
+ |                       |                      |-----------------------|
+ |                       |                      |                       |
+ |                       |<---------------------|                       |
+ |                       |                      |                       |
+ |                       |  Create Discussion   |                       |
+ |                       |----------------------|                       |
+ |                       |                      |                       |
+ |                       |<---------------------|                       |
+ |<----------------------|                      |                       |
+ |                       |                      |                       |
+'
