@@ -13,7 +13,8 @@ This project consists of several microservices to handle user management, discus
 5. Follow Service
 
 ## Setup
-1: Need to Install all required dependency mentioned on each Service. 
+
+1. Need to Install all required dependency mentioned on each Service. 
    (npm install express mongoose bcrypt jsonwebtoken)
-2: Ensure MongoDB is running on system.
-3: make sure all 5 service running using (node server.js).
+2. Ensure MongoDB is running on system.
+3. make sure all 5 service running using (node server.js).
